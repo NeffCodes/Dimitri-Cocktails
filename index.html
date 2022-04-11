@@ -8,20 +8,34 @@
 		<title>Title in the tab</title>
 
 		<!-- external CSS link -->
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Roboto:400,700|Roboto+Condensed:400,700" rel="stylesheet">
+
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-    
-    <h1>Search by Cocktail Name</h1>
-		<input type="text" name="" value="">
-		<button type="button" name="byName" id="byName">Get Cocktail Name</button>
+  <div class="container">
+    <header>
+      <h1>Find Available Drinks</h1>
+      <input type="text" name="" value="">
+      <button type="button" name="byName" id="byName">Search</button>
 
-    <div id="filterAlc">Show Alcoholic only</div>
-    <div id="filterNon">Show Non-Alcoholic only</div>
-    <div id="showAll">Show All</d>
-		<ul class="drink_container"></ul>
+      <section class="filters">
+        <span id="filterAlc" class="filter hidden">Show Alcoholic only</span>
+        <span id="filterNon" class="filter hidden">Show Non-Alcoholic only</span>
+        <span id="showAll" class="filter hidden">Show All</span>
+      </section>
 
+    </header>
+    <main>
+
+      <ul class="drink_container"></ul>
+    </main>
+
+    <footer>
+      <p>Designed by: James Neff -  All rights reserved. </p>
+    </footer>
+  </div>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>

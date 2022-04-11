@@ -13,7 +13,6 @@ function getDrinkByName(){
   .then(res => res.json())
   .then(data => {
     drinkStorage = [...data.drinks]
-    console.log(drinkStorage)
     displayDrinks(drinkStorage);
   })
   .catch(err => console.error(err))
@@ -21,26 +20,25 @@ function getDrinkByName(){
 
 
 function displayDrinks(arr){
+  document.querySelectorAll('.filter').forEach(el => el.classList.remove('hidden'))
+
   for(let i = 0; i < arr.length; i++) {
     createDrinkCard(arr[i])
   }
 }
 
 function showAll(){ 
-  console.log('show')
   clearData();
   displayDrinks(drinkStorage)
 }
 
 function filterAlcoholic(){
-  console.log('Alc')
   clearData();
   let filtered = drinkStorage.filter( obj => obj.strAlcoholic === 'Alcoholic')
   displayDrinks(filtered);
 }
 
 function filterNonAlcoholic(){
-  console.log('Non')
   clearData();
   let filtered = drinkStorage.filter( obj => obj.strAlcoholic !== 'Alcoholic')
   displayDrinks(filtered);
@@ -53,30 +51,34 @@ function createDrinkCard(obj) {
 
   //add image thumbnail
   addImage({element: drink, src: obj.strDrinkThumb})
+ 
+  let div = document.createElement('div');
+  addClasses(div, ['details'])
+  drink.appendChild(div)
 
   //Add correct tag class depending on alcoholic
   obj.strAlcoholic === 'Alcoholic' ?
-    addSpan({element: drink, text: obj.strAlcoholic, classes:['tag','alcoholic']}) :
-    addSpan({element: drink, text: obj.strAlcoholic, classes:['tag','non-alcoholic']});
+    addSpan({element: div, text: obj.strAlcoholic, classes:['tag','alcoholic']}) :
+    addSpan({element: div, text: obj.strAlcoholic, classes:['tag','non-alcoholic']});
 
   //add name of drink
-  addH2({element: drink, text: obj.strDrink})
-
+  addH2({element: div, text: obj.strDrink})
+  
   //add ingredient container
   let ingredientContainer = document.createElement('ul');
   ingredientContainer.classList.add('ingredient_container');
-  drink.appendChild(ingredientContainer)
+  div.appendChild(ingredientContainer)
 
   //add individual ingredients
   let ingredients = getIngredients(obj);
   ingredients.forEach( ing => {
     let item = document.createElement('li');
-    item.innerHTML =`<span class="measure"> ${ing.measurement}</span>${ing.ingredient}`;
+    item.innerHTML =`<span class="measure">${ing.measurement}</span> ${ing.ingredient}`;
     ingredientContainer.appendChild(item)
   })
 
   //add instructions
-  addP({element:drink, text: obj.strInstructions})
+  addP({element:div, text: obj.strInstructions})
 
   //add drink to container
   container.appendChild(drink) 
@@ -98,7 +100,7 @@ function getIngredients(drink) {
   while(drink[`strIngredient${counter}`]){
     let tempObj = {
       ingredient: capitalize(drink[`strIngredient${counter}`]),
-      measurement: drink[`strMeasure${counter}`] ? drink[`strMeasure${counter}`] : '',
+      measurement: drink[`strMeasure${counter}`] ? drink[`strMeasure${counter}`].trim() : '',
     }
     arr.push(tempObj)
     counter++;
@@ -109,6 +111,7 @@ function getIngredients(drink) {
 function clearData(){
   let container = document.querySelector('.drink_container');
   container.innerHTML = null;
+  document.querySelector('.filters').classList.add('hidden')
 }
 
 ////////////////// HTML Creation Helpers
