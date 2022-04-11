@@ -1,25 +1,80 @@
-//The user will enter a cocktail. Get a cocktail name, photo, and instructions and place them in the DOM
+document.querySelector('#byName').addEventListener('click', getDrinkByName)
 
-document.querySelector('button').addEventListener('click', getDrink)
-
-function getDrink(){
+function getDrinkByName(){
   clearData();
   searchTerm = document.querySelector('input').value
 
   fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`)
   .then(res => res.json())
   .then(data => {
-    console.log(data)
     const drinks = data.drinks
-
     for(let i = 0; i < drinks.length; i++) {
-      createListItemDrink(drinks[i])
+      createDrinkCard(drinks[i])
     }
-
-
   })
   .catch(err => console.error(err))
+}
 
+
+
+function createDrinkCard(obj) {
+  let container = document.querySelector('.drink_container');
+  let drink = document.createElement('li');
+  drink.classList.add('drink');
+
+  //add image thumbnail
+  addImage({element: drink, src: obj.strDrinkThumb})
+
+  //Add correct tag class depending on alcoholic
+  obj.strAlcoholic === 'Alcoholic' ?
+    addSpan({element: drink, text: obj.strAlcoholic, classes:['tag','alcoholic']}) :
+    addSpan({element: drink, text: obj.strAlcoholic, classes:['tag','non-alcoholic']});
+
+  //add name of drink
+  addH2({element: drink, text: obj.strDrink})
+
+  //add ingredient container
+  let ingredientContainer = document.createElement('ul');
+  ingredientContainer.classList.add('ingredient_container');
+  drink.appendChild(ingredientContainer)
+
+  //add individual ingredients
+  let ingredients = getIngredients(obj);
+  ingredients.forEach( ing => {
+    let item = document.createElement('li');
+    item.innerHTML =`<span class="measure"> ${ing.measurement}</span>${ing.ingredient}`;
+    ingredientContainer.appendChild(item)
+  })
+
+  //add instructions
+  addP({element:drink, text: obj.strInstructions})
+
+  //add drink to container
+  container.appendChild(drink) 
+}
+
+////////////////// Data Helpers
+function capitalize(str) {
+  let arr = str.split(' ');
+  for(let i=0; i<arr.length;i++){
+    arr[i] = arr[i][0].toUpperCase() + arr[i].slice(1)
+  }
+  return arr.join(' ')
+}
+
+function getIngredients(drink) {
+  let arr = [];
+
+  let counter = 1;
+  while(drink[`strIngredient${counter}`]){
+    let tempObj = {
+      ingredient: capitalize(drink[`strIngredient${counter}`]),
+      measurement: drink[`strMeasure${counter}`] ? drink[`strMeasure${counter}`] : '',
+    }
+    arr.push(tempObj)
+    counter++;
+  }
+  return arr;
 }
 
 function clearData(){
@@ -27,23 +82,41 @@ function clearData(){
   container.innerHTML = null;
 }
 
-function createListItemDrink(obj) {
-  let container = document.querySelector('.drink_container');
-  let drink = document.createElement('li');
-  drink.classList.add('drink');
-
-  let thumbnail = document.createElement('img');
-  thumbnail.src = obj.strDrinkThumb;
-  drink.appendChild(thumbnail)
-
-  let name = document.createElement('h2');
-  name.innerText = obj.strDrink;
-  drink.appendChild(name)
-
-  let instructions = document.createElement('p');
-  instructions.innerText = obj.strInstructions;
-  drink.appendChild(instructions)
-
-  container.appendChild(drink)
-  
+////////////////// HTML Creation Helpers
+function addH2({element, text, classes}) {
+  let h2 = document.createElement('h2');
+  h2.innerText = text;
+  addClasses(h2, classes);
+  element.appendChild(h2)
 }
+
+function addImage({element, src, alt='', classes}){
+  let image = document.createElement('img');
+  image.src = src;
+  image.alt = alt;
+  addClasses(image, classes);
+  element.appendChild(image)
+}
+
+function addP({element, text, classes}) {
+  let p = document.createElement('p');
+  p.innerText = text;
+  addClasses(p, classes);
+  element.appendChild(p)
+}
+
+function addSpan({element, text, classes}) {
+  let span = document.createElement('span');
+  span.innerText = text;
+  addClasses(span, classes);
+  element.appendChild(span)
+}
+
+function addClasses(element, classArray) {
+  if(classArray && classArray.length){
+    for(let i = 0; i<classArray.length; i++){
+      element.classList.add(classArray[i])
+    }
+  }
+}
+// }

@@ -38,6 +38,7 @@ li {
   justify-content: center;
 
 }
+
 .drink {
   border: 1px solid black;
   border-radius: 4px;
@@ -49,6 +50,34 @@ li {
   width: 100%;
 }
 
-.drink h2, .drink p {
+.drink h2, .drink p, .drink ul{
   padding: 0 1rem;
+}
+
+.ingredient_container{
+}
+.ingredient_container li{
+  padding: 0.2rem 0.5rem;
+}
+.ingredient_container li::before{
+  content: '-';
+  margin-right: 0.4rem;
+}
+
+.tag{
+  font-size: 0.6rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  padding: 0.25rem;
+  border-radius: 4px;
+  margin-left: 1rem
+}
+.alcoholic {
+  border: 1px solid red;
+  color: red;
+}
+.non-alcoholic {
+  border: 1px solid blue;
+  color: blue;
 }
