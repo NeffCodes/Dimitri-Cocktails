@@ -1,21 +1,50 @@
 document.querySelector('#byName').addEventListener('click', getDrinkByName)
 
+//filters
+document.querySelector('#filterAlc').addEventListener('click', filterAlcoholic)
+document.querySelector('#filterNon').addEventListener('click', filterNonAlcoholic)
+document.querySelector('#showAll').addEventListener('click', showAll)
+
+let drinkStorage = []
 function getDrinkByName(){
   clearData();
   searchTerm = document.querySelector('input').value
-
   fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`)
   .then(res => res.json())
   .then(data => {
-    const drinks = data.drinks
-    for(let i = 0; i < drinks.length; i++) {
-      createDrinkCard(drinks[i])
-    }
+    drinkStorage = [...data.drinks]
+    console.log(drinkStorage)
+    displayDrinks(drinkStorage);
   })
   .catch(err => console.error(err))
 }
 
 
+function displayDrinks(arr){
+  for(let i = 0; i < arr.length; i++) {
+    createDrinkCard(arr[i])
+  }
+}
+
+function showAll(){ 
+  console.log('show')
+  clearData();
+  displayDrinks(drinkStorage)
+}
+
+function filterAlcoholic(){
+  console.log('Alc')
+  clearData();
+  let filtered = drinkStorage.filter( obj => obj.strAlcoholic === 'Alcoholic')
+  displayDrinks(filtered);
+}
+
+function filterNonAlcoholic(){
+  console.log('Non')
+  clearData();
+  let filtered = drinkStorage.filter( obj => obj.strAlcoholic !== 'Alcoholic')
+  displayDrinks(filtered);
+}
 
 function createDrinkCard(obj) {
   let container = document.querySelector('.drink_container');
