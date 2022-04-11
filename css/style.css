@@ -1,0 +1,48 @@
+/******************************************
+/* CSS
+/*******************************************/
+
+/* Box Model Hack */
+*{
+  box-sizing: border-box;
+}
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+/* img{
+  display: block;
+  margin: 0 auto;
+  height: 200px;
+  
+} */
+
+li {
+  list-style-type: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/******************************************
+/* ADDITIONAL STYLES
+/*******************************************/
+.drink_container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.card {
+  border: 1px solid black;
+  border-radius: 4px;
+  max-width: 320px;
+}
+
+.card img {
+  width: 100%;
+}
+
+.card .info {
+  padding: 0 1rem;
+}
