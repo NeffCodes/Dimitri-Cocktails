@@ -16,6 +16,10 @@
   height: 200px;
   
 } */
+ul, li, ol {
+  margin: 0;
+  padding: 0;
+}
 
 li {
   list-style-type: none;
@@ -31,18 +35,20 @@ li {
 .drink_container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
 }
-.card {
+.drink {
   border: 1px solid black;
   border-radius: 4px;
   max-width: 320px;
+  margin: 1rem;
 }
 
-.card img {
+.drink img {
   width: 100%;
 }
 
-.card .info {
+.drink h2, .drink p {
   padding: 0 1rem;
 }

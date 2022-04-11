@@ -30,14 +30,15 @@ function clearData(){
 function createListItemDrink(obj) {
   let container = document.querySelector('.drink_container');
   let drink = document.createElement('li');
-
-  let name = document.createElement('h2');
-  name.innerText = obj.strDrink;
-  drink.appendChild(name)
+  drink.classList.add('drink');
 
   let thumbnail = document.createElement('img');
   thumbnail.src = obj.strDrinkThumb;
   drink.appendChild(thumbnail)
+
+  let name = document.createElement('h2');
+  name.innerText = obj.strDrink;
+  drink.appendChild(name)
 
   let instructions = document.createElement('p');
   instructions.innerText = obj.strInstructions;
