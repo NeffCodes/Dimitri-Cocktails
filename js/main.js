@@ -13,9 +13,7 @@ function getDrink(){
     const drinks = data.drinks
 
     for(let i = 0; i < drinks.length; i++) {
-      document.querySelector('h2').innerText = `${drinks[0].strDrink}`
-      document.querySelector('img').src = drinks[0].strDrinkThumb
-      document.querySelector('h3').innerText = drinks[0].strInstructions
+      createListItemDrink(drinks[i])
     }
 
 
@@ -24,3 +22,22 @@ function getDrink(){
 
 }
 
+function createListItemDrink(obj) {
+  let container = document.querySelector('.drink_container');
+  let drink = document.createElement('li');
+
+  let name = document.createElement('h2');
+  name.innerText = obj.strDrink;
+  drink.appendChild(name)
+
+  let thumbnail = document.createElement('img');
+  thumbnail.src = obj.strDrinkThumb;
+  drink.appendChild(thumbnail)
+
+  let instructions = document.createElement('p');
+  instructions.innerText = obj.strInstructions;
+  drink.appendChild(instructions)
+
+  container.appendChild(drink)
+  
+}
