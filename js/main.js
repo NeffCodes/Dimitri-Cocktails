@@ -3,7 +3,7 @@
 document.querySelector('button').addEventListener('click', getDrink)
 
 function getDrink(){
-
+  clearData();
   searchTerm = document.querySelector('input').value
 
   fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`)
@@ -20,6 +20,11 @@ function getDrink(){
   })
   .catch(err => console.error(err))
 
+}
+
+function clearData(){
+  let container = document.querySelector('.drink_container');
+  container.innerHTML = null;
 }
 
 function createListItemDrink(obj) {
